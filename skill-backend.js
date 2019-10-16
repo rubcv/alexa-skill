@@ -2,27 +2,16 @@
 /* eslint-disable  no-console */
 
 const Alexa = require('ask-sdk');
-/*
-const GetNewFactHandler = {
-  canHandle(handlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return request.type === 'LaunchRequest'
-      || (request.type === 'IntentRequest'
-        && request.intent.name === 'GetNewFactIntent');
-  },
-  handle(handlerInput) {
-    const factArr = data;
-    const factIndex = Math.floor(Math.random() * factArr.length);
-    const randomFact = factArr[factIndex];
-    const speechOutput = GET_FACT_MESSAGE + randomFact;
 
-    return handlerInput.responseBuilder
-      .speak(speechOutput)
-      .withSimpleCard(SKILL_NAME, randomFact)
-      .getResponse();
-  },
-};
-*/
+
+const SKILL_NAME = 'Verdad o Atrevimiento';
+const HELP_MESSAGE = 'Bienvenido al juego de verdad o atrevimiento, di quiero confesar para verdad, di ponme a prueba para atrevimiento, di pasa palabra para pregunta siguiente o di reglas para oir este mensaje de nuevo. Di fin del juego para salir';
+const HELP_REPROMPT = HELP_MESSAGE;
+const STOP_MESSAGE = 'Juego terminado';
+const VoA = 'Elige verdad o atrevimiento';
+const verdad = 'De este grupo, ¿a quién llevarías a una isla desierta?';
+const atrevimiento = 'Imita a alguien del grupo';
+
 
 
 // SKILL START
@@ -32,9 +21,10 @@ const LaunchHandler = {
     return request.type === 'LaunchRequest';
   },
   handle(handlerInput) {
-    
+  
     return handlerInput.responseBuilder
       .speak(HELP_MESSAGE)
+      .reprompt(HELP_MESSAGE)
       .withSimpleCard(SKILL_NAME, VoA)
       .getResponse();
   },
@@ -50,11 +40,14 @@ const SiguienteHandler = {
         && request.intent.name === 'SiguienteIntent');
   },
   handle(handlerInput) {
-    
-    return handlerInput.responseBuilder
+
+     return handlerInput.responseBuilder
       .speak(VoA)
+      .reprompt(VoA)
+      .withSimpleCard(SKILL_NAME, VoA)
       .getResponse();
-  },
+      
+  }
 };
 
 
@@ -67,10 +60,13 @@ const VerdadHandler = {
   },
   handle(handlerInput) {
     
-    return handlerInput.responseBuilder
+     return handlerInput.responseBuilder
       .speak(verdad)
+      .reprompt(verdad)
+      .withSimpleCard(SKILL_NAME, verdad)
       .getResponse();
-  },
+      
+  }
 };
 
 // ATREVIMIENTO
@@ -82,10 +78,14 @@ const AtrevimientoHandler = {
   },
   handle(handlerInput) {
     
-    return handlerInput.responseBuilder
+     return handlerInput.responseBuilder
       .speak(atrevimiento)
+      .reprompt(atrevimiento)
+      .withSimpleCard(SKILL_NAME, atrevimiento)
       .getResponse();
-  },
+      
+  
+  }
 };
 
 // FIN DEL JUEGO
@@ -96,11 +96,14 @@ const FinDelJuegoHandler = {
         && request.intent.name === 'FinDelJuegoIntent');
   },
   handle(handlerInput) {
-    
-    return handlerInput.responseBuilder
+
+     return handlerInput.responseBuilder
       .speak(STOP_MESSAGE)
+      .reprompt(STOP_MESSAGE)
+      .withSimpleCard(SKILL_NAME, STOP_MESSAGE)
       .getResponse();
-  },
+      
+  }
 };
 
 
@@ -157,15 +160,6 @@ const ErrorHandler = {
       .getResponse();
   },
 };
-
-const SKILL_NAME = 'Verdad o Atrevimiento';
-const HELP_MESSAGE = 'Bienvenido al juego de verdad o atrevimiento, elige verdad, atrevimiento, di reglas para oir este mensaje de nuevo o fin del juego para salir';
-const HELP_REPROMPT = HELP_MESSAGE;
-const STOP_MESSAGE = 'Juego terminado';
-
-const VoA = 'Elige verdad o atrevimiento';
-const verdad = 'De este grupo, ¿a quién llevarías a una isla desierta?';
-const atrevimiento = 'Imita a alguien del grupo';
 
 
 const skillBuilder = Alexa.SkillBuilders.standard();
